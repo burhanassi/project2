@@ -5,9 +5,9 @@ export const DataContext = React.createContext({
     randNum: Math.floor(Math.random()*102) as number,
     redirects: false as boolean,
     randNumList: [] as number[],
-    button: ():void => {},
+    button: (min: number, max: number):void => {},
     click: ():void => {},
-    change: ():void => {},
+    change: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>):void => {},
     backToHome: ():void => {}
 });
 
