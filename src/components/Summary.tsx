@@ -1,24 +1,25 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './Style.module.css';
 import NumbersList from "./NumbersList";
-import {Typography} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
+import {DataContext} from "../context/data-context";
+import {Link, Redirect} from 'react-router-dom';
 
-interface Props{
-    items: number[];
-    num?: number;
-}
+const Summary: React.FC = () => {
+    const dataContext = useContext(DataContext);
 
-const Summary: React.FC<Props> = props => {
     return <div className={classes.SubmitFormControl}>
         <div className={classes.SummaryCircle}>
-            <Typography className={classes.Item} variant="h6" gutterBottom>
+            <Typography className={classes.Itemm} variant="h5" gutterBottom>
                 Your Number:
             </Typography>
-            <Typography className={classes.Item} variant="h6" gutterBottom>
-                {props.num}
+            <Typography className={classes.Itemm} variant="h6" gutterBottom>
+                {dataContext.num}
             </Typography>
         </div>
-        <NumbersList items={props.items}/>
+        <NumbersList/>
+        <Link to={{pathname:'/'}} onClick={dataContext.backToHome}><Button variant={"contained"} color={"secondary"}>Back to home page</Button></Link>
+        {!dataContext.redirects && <Redirect to={'/'}/>}
     </div>
 };
 

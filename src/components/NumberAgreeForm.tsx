@@ -1,19 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Typography} from "@material-ui/core";
 import NumbersList from "./NumbersList";
 import {Redirect} from 'react-router-dom';
 import classes from "./Style.module.css";
 import cx from "classnames";
+import {DataContext} from "../context/data-context";
 
-interface Props {
-    num?: number;
-    randNum: number;
-    numbersList: number[];
-    buttonHandler: (min: number, max: number) => void;
-}
+const NumberAgreeForm: React.FC = () => {
+    const dataContext = useContext(DataContext);
 
-const NumberAgreeForm: React.FC<Props> = props => {
-
+    const buttonHandler = (min: number, max: number) => {
+        dataContext.button(min, max);
+    };
 
     return (
         <div>
@@ -23,19 +21,19 @@ const NumberAgreeForm: React.FC<Props> = props => {
                     Your number is less or more?
                 </Typography>
                 <Typography variant="h4" gutterBottom>
-                    {props.randNum}
+                    {dataContext.randNum}
                 </Typography>
                 <div>
-                    <button className={cx(classes.Button,classes.Button1)} onClick={() => props.buttonHandler(props.randNum,100)}>
+                    <button className={cx(classes.Button,classes.Button1)} onClick={() => buttonHandler(dataContext.randNum,102)}>
                         +
                     </button>
-                    <button className={cx(classes.Button,classes.Button2)} onClick={() => props.buttonHandler(0,props.randNum)}>
+                    <button className={cx(classes.Button,classes.Button2)} onClick={() => buttonHandler(0,dataContext.randNum)}>
                         -
                     </button>
                 </div>
             </div>
-            <NumbersList items={props.numbersList}/>
-            {props.randNum === props.num && <Redirect to={'/summary'}/>}
+            <NumbersList/>
+            {dataContext.randNum === dataContext.num && <Redirect to={'/summary'}/>}
         </div>
     );
 };

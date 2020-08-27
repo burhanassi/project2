@@ -1,19 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import classes from "./Style.module.css";
 import {Typography} from "@material-ui/core";
+import {DataContext} from "../context/data-context"
 
-interface ListProps {
-    items: number[]
-}
+const NumbersList: React.FC = () => {
+    const dataContext = useContext(DataContext);
 
-const NumbersList: React.FC<ListProps> = props => {
     return <div className={classes.SubmitFormControl}>
         <Typography className={classes.Item} variant="h6" gutterBottom>
             This is the random numbers list:
         </Typography>
         <ul>
-            {props.items.map(number => (
-                <li key={number}>{number}</li>
+            {dataContext.randNumList.map(number => (
+                <li key={number}>{number}</li> // try to solve: key not always unique
             ))}
         </ul>
     </div>
