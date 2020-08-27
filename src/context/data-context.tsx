@@ -19,31 +19,20 @@ const DataContextProvider: React.FC = props => {
     const [randomNumbersList, setRandomNumbersList] = useState<number[]>([]);
     const [isRedi, setIsRedi] = useState<boolean>(false);
 
-    const [add, setAdd] = useState<boolean>(false);
-    const [remove, setRemove] = useState<boolean>(false);
-
     const [min, setMin] = useState<number>(0);
     const [max, setMax] = useState<number>(100);
 
     const buttonHandler = () => {
         setRandomNumber(Math.floor(Math.random() * (max - min + 1) + min));
-        if(add){
-            setMin(RandomNumber);
-        }
-        if(remove){
-            setMax(RandomNumber);
-        }
         setRandomNumbersList(prevList => [...prevList, RandomNumber]);
     };
 
     const addHandle = () => {
-        setAdd(true);
-        setRemove(false);
+        setMin(RandomNumber);
     }
 
     const removeHandle = () => {
-        setRemove(true);
-        setAdd(false);
+        setMax(RandomNumber);
     }
 
     const clickHandler = () => {
