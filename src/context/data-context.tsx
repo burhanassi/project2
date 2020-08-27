@@ -2,13 +2,15 @@ import React, {useState} from "react";
 
 export const DataContext = React.createContext({
     num: -1 as number,
-    randNum: Math.floor(Math.random()*102) as number,
+    randNum: Math.floor(Math.random()*101) as number,
     redirects: false as boolean,
     randNumList: [] as number[],
-    button: (min: number, max: number):void => {},
+    button: ():void => {},
     click: ():void => {},
     change: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>):void => {},
-    backToHome: ():void => {}
+    backToHome: ():void => {},
+    addHandle: ():void => {},
+    removeHandle: ():void => {}
 });
 
 const DataContextProvider: React.FC = props => {
@@ -17,10 +19,32 @@ const DataContextProvider: React.FC = props => {
     const [randomNumbersList, setRandomNumbersList] = useState<number[]>([]);
     const [isRedi, setIsRedi] = useState<boolean>(false);
 
-    const buttonHandler = (min: number, max: number) => {
+    const [add, setAdd] = useState<boolean>(false);
+    const [remove, setRemove] = useState<boolean>(false);
+
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(100);
+
+    const buttonHandler = () => {
+        setRandomNumber(Math.floor(Math.random() * (max - min + 1) + min));
+        if(add){
+            setMin(RandomNumber);
+        }
+        if(remove){
+            setMax(RandomNumber);
+        }
         setRandomNumbersList(prevList => [...prevList, RandomNumber]);
-        setRandomNumber(Math.floor(Math.random() * (max - min) + min));
     };
+
+    const addHandle = () => {
+        setAdd(true);
+        setRemove(false);
+    }
+
+    const removeHandle = () => {
+        setRemove(true);
+        setAdd(false);
+    }
 
     const clickHandler = () => {
         setIsRedi(true);
@@ -42,7 +66,17 @@ const DataContextProvider: React.FC = props => {
 
     return (
         <DataContext.Provider
-            value={{button: buttonHandler, click: clickHandler, change: changeHandler, backToHome: backToHomeHandler, num: number, randNum: RandomNumber, redirects: isRedi, randNumList: randomNumbersList}}
+            value={{button: buttonHandler,
+                click: clickHandler,
+                change: changeHandler,
+                backToHome: backToHomeHandler,
+                addHandle: addHandle,
+                removeHandle: removeHandle,
+                num: number,
+                randNum: RandomNumber,
+                redirects: isRedi,
+                randNumList: randomNumbersList
+            }}
         >
             {props.children}
         </DataContext.Provider>

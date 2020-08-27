@@ -9,25 +9,30 @@ import {DataContext} from "../context/data-context";
 const NumberAgreeForm: React.FC = () => {
     const dataContext = useContext(DataContext);
 
-    const buttonHandler = (min: number, max: number) => {
-        dataContext.button(min, max);
+    const plusButtonHandler = () => {
+        dataContext.addHandle();
+        dataContext.button();
+    };
+    const minusButtonHandler = () => {
+        dataContext.removeHandle();
+        dataContext.button();
     };
 
     return (
         <div>
             <div className={classes.SubmitFormControl}>
                 <Typography variant="h5" gutterBottom>
-                    This is a random number.
-                    Your number is less or more?
+                    <p>This is a random number.</p>
+                    <p>Your number is less or more?</p>
                 </Typography>
                 <Typography variant="h4" gutterBottom>
                     {dataContext.randNum}
                 </Typography>
                 <div>
-                    <button className={cx(classes.Button,classes.Button1)} onClick={() => buttonHandler(dataContext.randNum,102)}>
+                    <button className={cx(classes.Button,classes.Button1)} onClick={() => plusButtonHandler()}>
                         +
                     </button>
-                    <button className={cx(classes.Button,classes.Button2)} onClick={() => buttonHandler(0,dataContext.randNum)}>
+                    <button className={cx(classes.Button,classes.Button2)} onClick={() => minusButtonHandler()}>
                         -
                     </button>
                 </div>
