@@ -7,8 +7,6 @@ interface Props {
     clicked: () => void;
 }
 
-
-
 const SubmitForm: React.FC<Props> = props => {
     const dataContext = useContext(DataContext);
 

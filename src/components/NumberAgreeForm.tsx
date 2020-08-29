@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {Typography} from "@material-ui/core";
 import NumbersList from "./NumbersList";
 import {Redirect} from 'react-router-dom';
@@ -7,15 +7,33 @@ import cx from "classnames";
 import {DataContext} from "../context/data-context";
 
 const NumberAgreeForm: React.FC = () => {
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(100);
     const dataContext = useContext(DataContext);
 
     const plusButtonHandler = () => {
-        dataContext.addHandle();
-        dataContext.button();
+        if(dataContext.randNum > min){
+            setMin(dataContext.randNum+1);
+        }
+        console.log(min, max);
+        dataContext.RNDispatch({type: 'SET', randNum: Math.floor(Math.random() * (max - min + 1) + min)});
+        dataContext.dispatch({
+            type: 'ADD',
+            randNum: dataContext.randNum,
+            randNumbersList: [...dataContext.randNumList, dataContext.randNum]
+        });
     };
     const minusButtonHandler = () => {
-        dataContext.removeHandle();
-        dataContext.button();
+        if(dataContext.randNum < max){
+            setMax(dataContext.randNum-1);
+        }
+        console.log(min, max);
+        dataContext.RNDispatch({type: 'SET', randNum: Math.floor(Math.random() * (max - min + 1) + min)});
+        dataContext.dispatch({
+            type: 'ADD',
+            randNum: dataContext.randNum,
+            randNumbersList: [...dataContext.randNumList, dataContext.randNum]
+        });
     };
 
     return (

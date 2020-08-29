@@ -5,13 +5,16 @@ import App from './App';
 import {ThemeProvider} from "@material-ui/styles";
 import {theme} from "./Theme/Theme";
 import DataContextProvider from './context/data-context';
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <DataContextProvider>
-                <App />
-            </DataContextProvider>
+            <BrowserRouter>
+                <DataContextProvider>
+                    <App />
+                </DataContextProvider>
+            </BrowserRouter>
         </ThemeProvider>
     </React.StrictMode>,
   document.getElementById('root')
