@@ -14,7 +14,6 @@ const NumberAgreeForm: React.FC = () => {
         if(dataContext.randNum > min){
             setMin(dataContext.randNum+1);
         }
-        console.log(min, max);
         const randomNumber = Math.floor(Math.random() * (max - dataContext.randNum + 1) + dataContext.randNum);
         dataContext.RNDispatch({type: 'SET', randNum: randomNumber});
         dataContext.dispatch({
@@ -27,7 +26,6 @@ const NumberAgreeForm: React.FC = () => {
         if(dataContext.randNum < max){
             setMax(dataContext.randNum-1);
         }
-        console.log(min, max);
         const randomNumber = Math.floor(Math.random() * (dataContext.randNum - min + 1) + min);
         dataContext.RNDispatch({type: 'SET', randNum: randomNumber});
         dataContext.dispatch({
