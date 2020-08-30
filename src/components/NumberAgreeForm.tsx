@@ -10,16 +10,16 @@ const NumberAgreeForm: React.FC = () => {
     const [min, setMin] = useState<number>(0);
     const [max, setMax] = useState<number>(100);
     const dataContext = useContext(DataContext);
-
     const plusButtonHandler = () => {
         if(dataContext.randNum > min){
             setMin(dataContext.randNum+1);
         }
         console.log(min, max);
-        dataContext.RNDispatch({type: 'SET', randNum: Math.floor(Math.random() * (max - min + 1) + min)});
+        const randomNumber = Math.floor(Math.random() * (max - dataContext.randNum + 1) + dataContext.randNum);
+        dataContext.RNDispatch({type: 'SET', randNum: randomNumber});
         dataContext.dispatch({
             type: 'ADD',
-            randNum: dataContext.randNum,
+            randNum: randomNumber,
             randNumbersList: [...dataContext.randNumList, dataContext.randNum]
         });
     };
@@ -28,10 +28,11 @@ const NumberAgreeForm: React.FC = () => {
             setMax(dataContext.randNum-1);
         }
         console.log(min, max);
-        dataContext.RNDispatch({type: 'SET', randNum: Math.floor(Math.random() * (max - min + 1) + min)});
+        const randomNumber = Math.floor(Math.random() * (dataContext.randNum - min + 1) + min);
+        dataContext.RNDispatch({type: 'SET', randNum: randomNumber});
         dataContext.dispatch({
             type: 'ADD',
-            randNum: dataContext.randNum,
+            randNum: randomNumber,
             randNumbersList: [...dataContext.randNumList, dataContext.randNum]
         });
     };

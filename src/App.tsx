@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import NumberAgreeForm from "./components/NumberAgreeForm";
 import Summary from "./components/Summary";
 import {DataContext} from "./context/data-context";
@@ -16,10 +16,8 @@ function App() {
 
   return (
     <div>
-        <BrowserRouter>
-            {dataContext.redirects && <Redirect to={'/agree'} from={'/'}/>}
-            {routes}
-        </BrowserRouter>
+        {dataContext.redirects && <Redirect to={'/agree'} from={'/'}/>}
+        {routes}
     </div>
   );
 }
