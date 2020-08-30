@@ -3,7 +3,6 @@ import classes from './Style.module.css';
 import NumbersList from "./NumbersList";
 import {Button, Typography} from "@material-ui/core";
 import {DataContext} from "../context/data-context";
-import {Link} from 'react-router-dom';
 
 const Summary: React.FC = () => {
     const dataContext = useContext(DataContext);
@@ -18,7 +17,7 @@ const Summary: React.FC = () => {
             </Typography>
         </div>
         <NumbersList/>
-        <Link to={{pathname:'/'}} onClick={dataContext.backToHome}><Button variant={"contained"} color={"secondary"}>Back to home page</Button></Link>
+        <Button onClick={dataContext.backToHome} variant={"contained"} color={"secondary"}>Back to home page</Button>
     </div>
 };
 

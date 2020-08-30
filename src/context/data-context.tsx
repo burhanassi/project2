@@ -1,43 +1,46 @@
-import React, {useState} from "react";
+import React, {useReducer, useState} from "react";
+import {useHistory, withRouter} from "react-router-dom";
 
 export const DataContext = React.createContext({
     num: -1 as number,
     randNum: Math.floor(Math.random()*101) as number,
     redirects: false as boolean,
     randNumList: [] as number[],
-    button: ():void => {},
     click: ():void => {},
     change: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>):void => {},
     backToHome: ():void => {},
-    addHandle: ():void => {},
-    removeHandle: ():void => {}
+    dispatch: (action: {type: string, randNum: number, randNumbersList: number[]}):any => {},
+    RNDispatch: (action: {type: string, randNum: number}):any => {},
 });
 
+const RandomNumbersListReducer = (randNumbersList: number[], action: {type: string, randNum: number, randNumbersList: number[]}): any => {
+    switch (action.type) {
+        case 'SET': return action.randNumbersList;
+        case 'ADD': return [...randNumbersList, action.randNum];
+        default: throw new Error("Error with random numbers list!");
+    }
+}
+
+const  RandomNumberReducer = (randomNumber: number, action: {type: string, randNum: number}): any => {
+    switch (action.type) {
+        case 'SET': return action.randNum;
+        default: throw new Error("Error with random number!");
+    }
+}
+
 const DataContextProvider: React.FC = props => {
+    const [randomNumbersList, dispatch] = useReducer(RandomNumbersListReducer, []);
+    const [randomNumber, RNDispatch] = useReducer(RandomNumberReducer, Math.floor(Math.random()*101));
+
     const [number, setNumber] = useState<number>(-1);
-    const [RandomNumber, setRandomNumber] = useState<number>(Math.floor(Math.random()*102));
-    const [randomNumbersList, setRandomNumbersList] = useState<number[]>([]);
     const [isRedi, setIsRedi] = useState<boolean>(false);
 
-    const [min, setMin] = useState<number>(0);
-    const [max, setMax] = useState<number>(100);
-
-    const buttonHandler = () => {
-        setRandomNumber(Math.floor(Math.random() * (max - min + 1) + min));
-        setRandomNumbersList(prevList => [...prevList, RandomNumber]);
-    };
-
-    const addHandle = () => {
-        setMin(RandomNumber);
-    }
-
-    const removeHandle = () => {
-        setMax(RandomNumber);
-    }
+    let history = useHistory();
 
     const clickHandler = () => {
         setIsRedi(true);
         console.log(number);
+        history.push('/agree');
     };
 
     const changeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -49,22 +52,27 @@ const DataContextProvider: React.FC = props => {
     };
 
     const backToHomeHandler = () => {
-        setRandomNumbersList([]);
+        history.goBack();
+        dispatch({
+            type: 'SET',
+            randNum: Math.floor(Math.random()*101),
+            randNumbersList: []
+        });
         setIsRedi(false);
     };
 
     return (
         <DataContext.Provider
-            value={{button: buttonHandler,
+            value={{
                 click: clickHandler,
                 change: changeHandler,
                 backToHome: backToHomeHandler,
-                addHandle: addHandle,
-                removeHandle: removeHandle,
                 num: number,
-                randNum: RandomNumber,
+                randNum: randomNumber,
                 redirects: isRedi,
-                randNumList: randomNumbersList
+                randNumList: randomNumbersList,
+                dispatch: dispatch,
+                RNDispatch: RNDispatch
             }}
         >
             {props.children}
@@ -72,4 +80,4 @@ const DataContextProvider: React.FC = props => {
     );
 };
 
-export default DataContextProvider;
+export default withRouter(DataContextProvider);

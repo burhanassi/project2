@@ -3,13 +3,7 @@ import classes from "./Style.module.css";
 import {Button, TextField, Typography} from "@material-ui/core";
 import {DataContext} from "../context/data-context";
 
-interface Props {
-    clicked: () => void;
-}
-
-
-
-const SubmitForm: React.FC<Props> = props => {
+const SubmitForm: React.FC = () => {
     const dataContext = useContext(DataContext);
 
     const clickHandler = () => {
