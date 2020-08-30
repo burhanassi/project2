@@ -39,7 +39,6 @@ const DataContextProvider: React.FC = props => {
 
     const clickHandler = () => {
         setIsRedi(true);
-        console.log(number);
         history.push('/agree');
     };
 
